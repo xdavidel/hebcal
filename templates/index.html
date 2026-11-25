@@ -53,18 +53,18 @@
 <section class="card">
   <h2>Entries</h2>
   {% if entries %}
-  <table>
+  <table class="entries">
     <thead>
       <tr><th>Name</th><th>Type</th><th>Hebrew date</th><th>Next 3 occurrences</th><th></th></tr>
     </thead>
     <tbody>
       {% for e in entries %}
       <tr>
-        <td>{{ e.name }}</td>
-        <td>{{ e.event_type }}</td>
-        <td>{{ e.hebrew_day }} {{ e.month_name }}</td>
-        <td class="preview">
-          {% for g in e.preview %}<div>{{ g.isoformat() }}</div>{% endfor %}
+        <td data-label="Name" class="name">{{ e.name }}</td>
+        <td data-label="Type">{{ e.event_type }}</td>
+        <td data-label="Hebrew date">{{ e.hebrew_day }} {{ e.month_name }}</td>
+        <td data-label="Next 3" class="preview">
+          <div class="dates">{% for g in e.preview %}<div>{{ g.isoformat() }}</div>{% endfor %}</div>
         </td>
         <td class="actions">
           <a href="{{ url_for('edit_entry', eid=e.id) }}">Edit</a>
