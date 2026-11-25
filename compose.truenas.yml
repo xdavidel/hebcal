@@ -1,6 +1,7 @@
 services:
   hebcal:
     image: ghcr.io/xdavidel/hebcal:latest
+    pull_policy: always
     container_name: hebcal
     ports:
       - "8080:8080"
