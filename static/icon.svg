@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Hebrew calendar">
+  <rect width="256" height="256" rx="48" fill="#1e3a8a"/>
+  <rect x="56" y="76" width="144" height="136" rx="12" fill="#f8fafc"/>
+  <rect x="56" y="76" width="144" height="36" rx="12" fill="#2563eb"/>
+  <rect x="56" y="100" width="144" height="12" fill="#2563eb"/>
+  <circle cx="92" cy="68" r="12" fill="#1e3a8a"/>
+  <circle cx="164" cy="68" r="12" fill="#1e3a8a"/>
+  <g transform="translate(128,164)" fill="none" stroke="#1e3a8a" stroke-width="10" stroke-linejoin="round">
+    <polygon points="0,-36 31.18,18 -31.18,18"/>
+    <polygon points="0,36 31.18,-18 -31.18,-18"/>
+  </g>
+</svg>
