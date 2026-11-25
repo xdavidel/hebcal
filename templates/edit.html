@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Edit entry</h2>
+  <form method="post" action="{{ url_for('mutate_entry', eid=entry.id) }}" class="entry-form">
+    <label>Name<input name="name" required value="{{ entry.name }}"></label>
+    <label>Type
+      <select name="event_type">
+        {% for v in ['yahrzeit', 'birthday', 'custom'] %}
+        <option value="{{ v }}" {% if entry.event_type == v %}selected{% endif %}>{{ v }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Month
+      <select name="hebrew_month">
+        {% for n, name in months %}
+        <option value="{{ n }}" {% if entry.hebrew_month == n %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Day<input type="number" name="hebrew_day" min="1" max="30" required value="{{ entry.hebrew_day }}"></label>
+    <label class="full">Notes<input name="notes" value="{{ entry.notes or '' }}"></label>
+    <div class="row full">
+      <button type="submit">Save</button>
+      <a href="{{ url_for('index') }}" class="cancel">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

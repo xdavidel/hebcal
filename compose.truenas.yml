@@ -1,0 +1,12 @@
+services:
+  hebcal:
+    image: registry.gitlab.com/YOUR_USER/hebcal-truenas:latest
+    container_name: hebcal
+    ports:
+      - "8080:8080"
+    volumes:
+      - /mnt/tank/apps/hebcal/data:/data
+    environment:
+      - HORIZON_YEARS=100
+      # - TZ=America/New_York
+    restart: unless-stopped

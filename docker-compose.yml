@@ -1,0 +1,13 @@
+services:
+  hebcal:
+    build: .
+    container_name: hebcal
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+    environment:
+      # Leave TZ unset to let the app detect; or pin it here.
+      # - TZ=America/New_York
+      - HORIZON_YEARS=100
+    restart: unless-stopped

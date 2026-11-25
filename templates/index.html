@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Add entry</h2>
+
+  <div class="tabs" role="tablist">
+    <button type="button" class="tab active" data-mode="hebrew">By Hebrew date</button>
+    <button type="button" class="tab" data-mode="gregorian">By Gregorian date</button>
+  </div>
+
+  <form method="post" action="{{ url_for('create_entry') }}" class="entry-form" data-form="hebrew">
+    <input type="hidden" name="input_mode" value="hebrew">
+    <label>Name<input name="name" required></label>
+    <label>Type
+      <select name="event_type">
+        <option value="yahrzeit">Yahrzeit</option>
+        <option value="birthday">Hebrew birthday</option>
+        <option value="custom">Custom</option>
+      </select>
+    </label>
+    <label>Month
+      <select name="hebrew_month">
+        {% for n, name in months %}
+        <option value="{{ n }}">{{ name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Day<input type="number" name="hebrew_day" min="1" max="30" required></label>
+    <label class="full">Notes<input name="notes" placeholder="optional"></label>
+    <button type="submit">Add</button>
+  </form>
+
+  <form method="post" action="{{ url_for('create_entry') }}" class="entry-form hidden" data-form="gregorian">
+    <input type="hidden" name="input_mode" value="gregorian">
+    <label>Name<input name="name" required></label>
+    <label>Type
+      <select name="event_type">
+        <option value="yahrzeit">Yahrzeit</option>
+        <option value="birthday">Hebrew birthday</option>
+        <option value="custom">Custom</option>
+      </select>
+    </label>
+    <label class="full">Gregorian date<input type="date" name="gregorian_date" required></label>
+    <label class="full checkbox">
+      <input type="checkbox" name="after_sunset">
+      Occurred after sunset (shifts to the next Hebrew day)
+    </label>
+    <label class="full">Notes<input name="notes" placeholder="optional"></label>
+    <button type="submit">Convert &amp; add</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Entries</h2>
+  {% if entries %}
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Type</th><th>Hebrew date</th><th>Next 3 occurrences</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for e in entries %}
+      <tr>
+        <td>{{ e.name }}</td>
+        <td>{{ e.event_type }}</td>
+        <td>{{ e.hebrew_day }} {{ e.month_name }}</td>
+        <td class="preview">
+          {% for g in e.preview %}<div>{{ g.isoformat() }}</div>{% endfor %}
+        </td>
+        <td class="actions">
+          <a href="{{ url_for('edit_entry', eid=e.id) }}">Edit</a>
+          <form method="post" action="{{ url_for('mutate_entry', eid=e.id) }}"
+                onsubmit="return confirm('Delete {{ e.name|e }}?')">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="hint">No entries yet. Add one above.</p>
+  {% endif %}
+</section>
+
+<script>
+  document.querySelectorAll('.tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var mode = tab.dataset.mode;
+      document.querySelectorAll('.tab').forEach(function (t) {
+        t.classList.toggle('active', t === tab);
+      });
+      document.querySelectorAll('[data-form]').forEach(function (f) {
+        f.classList.toggle('hidden', f.dataset.form !== mode);
+      });
+    });
+  });
+</script>
+{% endblock %}
