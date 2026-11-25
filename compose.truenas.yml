@@ -1,6 +1,6 @@
 services:
   hebcal:
-    image: registry.gitlab.com/YOUR_USER/hebcal-truenas:latest
+    image: ghcr.io/xdavidel/hebcal:latest
     container_name: hebcal
     ports:
       - "8080:8080"
